@@ -59,7 +59,41 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  const playAudio = (e) => {
+    // console.log(e);
 
+    // fetch keycode corresponding to pressed key
+    // console.log(e.keyCode);
+
+    // fetch audio and div element using keycode of pressed key
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+    // console.log(key);
+    // if invalid key entered, then div element will not be fetched
+    if(!key) return;
+    // console.log(audio);
+    // if invalid key entered, then audio element will not be fetched
+    if(!audio) return;
+
+    // set current time of audio to 0 every time when keydown event is triggered
+    audio.currentTime = 0;
+    // if present, then play
+    audio.play();
+
+    // add playing class to the fetched key, to apply the css properties
+    key.classList.add("playing");
+    // remove the css properties when transition  ends
+    key.addEventListener("transitionend",function(event) {
+      // console.log(event);
+
+      // function will end when transform transition ends
+      if(event.propertyName !== "transform") return;
+      // remove class playing from key when transition ends
+      key.classList.remove("playing");
+    })
+  }
+  window.addEventListener("keydown",playAudio);
 </script>
 
 
